@@ -1,12 +1,13 @@
-﻿#ViewXML_Basic
+﻿
+#ViewXML_Basic
 # View XML file data from a website
 
 $debug = 1;
 # counter for events
 $i = 1
-$baseURL = "http://www.sqlsaturday.com/eventxml.aspx?sat="
+$baseURL = "E:\SQLSatData\SQLSat"
 
-$sourceURL = $baseURL + $i
+$sourceURL = $baseURL + $i + ".xml"
 
 # debug information
 if ($debug -eq 2) {
@@ -16,8 +17,28 @@ if ($debug -eq 2) {
 $doc = New-Object System.Xml.XmlDocument
 $doc.Load($sourceURL)
 
-$nodes = $doc.SelectNodes("//[@event]")
-foreach ($element in $nodes) {
-  Write-Host "Speaker:" + $element.attributes["title"].value
-  }
+#$StringWriter = New-Object System.IO.StringWriter 
+#$XmlWriter = New-Object System.XMl.XmlTextWriter $StringWriter 
+#$xmlWriter.Formatting = "indented" 
+#$doc.WriteTo($XmlWriter) 
+#$XmlWriter.Flush() 
+#$StringWriter.Flush() 
+#Write-Output $StringWriter.ToString() 
 
+#$doc.SelectNodes("//guide/name") 
+
+$sessions = $doc.SelectNodes("//event") 
+
+foreach ($session in $sessions.ChildNodes) {
+  if ($session.Name -eq "title") {
+   Write-Host "Title:   "  $session.'#text'
+   write-host " "
+   
+   }
+  if ($session.Name -eq "speakers") {
+   write-host "Speakers"
+   write-host "--------"
+   $session.ChildNodes.name 
+   }
+
+}
