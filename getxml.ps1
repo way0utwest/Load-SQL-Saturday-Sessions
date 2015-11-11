@@ -10,15 +10,17 @@ $baseURL = "http://www.sqlsaturday.com/eventxml.aspx?sat="
 # begin looping
 # loop until we find that no files exists or we get to 9999.
 # Use 9999 as a terminator
+$missedXML = 0
 
-While ($i -lt 420) {
+While ($i -lt 9999) {
 # begin loop
+
 $DestinationFile = "E:\SQLSatData\SQLSat" + $i + ".xml"
 $sourceURL = $baseURL + $i
 
 # debug information
 if ($debug -eq 1) {
-  write-host $DestinationFile
+  write-host "Processing " $DestinationFile
   }
 
 if ($debug -eq 2) {
@@ -30,21 +32,32 @@ if ($debug -eq 2) {
 #Invoke-WebRequest $sourceURL -OutFile $DestinationFile
 $doc = New-Object System.Xml.XmlDocument
 
-# use try catch here for error handling
-try {
+if (-Not (Test-Path $DestinationFile)) {
 
-  $doc.Load($sourceURL)
+  # use try catch here for error handling
+  try {
+  
+    $doc.Load($sourceURL)
 
-  # save file
-  $doc.Save($DestinationFile)
+    # save file
+    if ($debug -eq 1) {
+      Write-Host "Saving " $DestinationFile
+    }
+    $doc.Save($DestinationFile)
+  }
+  Catch
+  {
+    # if we can't load the file, assume we're done for now.
+    $missedXML++
+    Write-Host "error with  #" $i
+  }
 }
-Catch
-{
-  # if we can't load the file, assume we're done for now.
-  Write-Host "error with  #" $i
-}
-
+Write-Host "missed files: " $missedXML
 
 $i = $i + 1
+
+if ($missedXML -ge 12) {
+ $i = 9999
+}
 # end loop
 }
