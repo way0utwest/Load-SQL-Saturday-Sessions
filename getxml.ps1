@@ -15,7 +15,7 @@ $missedXML = 0
 While ($i -lt 9999) {
 # begin loop
 
-$DestinationFile = "E:\SQLSatData\SQLSat" + $i + ".xml"
+$DestinationFile = "h:\SQLSatData\SQLSat" + $i + ".xml"
 $sourceURL = $baseURL + $i
 
 # debug information
