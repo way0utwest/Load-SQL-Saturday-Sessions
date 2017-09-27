@@ -1,7 +1,7 @@
-﻿$folderpath = "H:\SQLSatData\"
+﻿$folderpath = "F:\SQLSatData\"
 $SQLUser = "SQLSatRobot"
 $SQLPwd = "AB@dIdea!4Sure"
-$servername = "JollyGreenGiant\SQL2012"
+$servername = ".\SQL2014"
 $db = "SQLSatAnalysis"
 $strConnection = "Server=$servername;Database=$db;Trusted_Connection=False;User ID=$SQLUser;password=$SQLPwd"
 
