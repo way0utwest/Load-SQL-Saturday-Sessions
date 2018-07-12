@@ -1,7 +1,7 @@
 ﻿$folderpath = "F:\SQLSatData\"
 $SQLUser = "SQLSatRobot"
-$SQLPwd = "AB@dIdea!4Sure"
-$servername = ".\SQL2014"
+$SQLPwd = "Blu3Corn"
+$servername = "Plato\SQL2014"
 $db = "SQLSatAnalysis"
 $strConnection = "Server=$servername;Database=$db;Trusted_Connection=False;User ID=$SQLUser;password=$SQLPwd"
 

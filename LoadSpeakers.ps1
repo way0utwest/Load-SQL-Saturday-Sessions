@@ -1,7 +1,7 @@
 ﻿$folderpath = "F:\SQLSatData\"
 $SQLUser = "SQLSatRobot"
-$SQLPwd = "AB@dIdea!4Sure"
-$servername = ".\SQL2014"
+$SQLPwd = "Blu3Corn"
+$servername = "Plato\SQL2014"
 $db = "SQLSatAnalysis"
 $strConnection = "Server=$servername;Database=$db;Trusted_Connection=False;User ID=$SQLUser;password=$SQLPwd"
 
@@ -15,13 +15,13 @@ $Command.CommandType = [System.Data.CommandType]'StoredProcedure'
 $Command.ExecuteNonQuery() | Out-Null
 $Command.Dispose()
 
-$debug = 5000
+$debug = 1000
 $x = 1
 
 Get-ChildItem $folderpath -Filter *.xml |
 ForEach-Object {
 
-    #write-host $_.Name
+    write-host $_.Name
 
    [xml]$doc = Get-Content -Path $_.FullName
 
@@ -44,14 +44,14 @@ ForEach-Object {
    $speakerheight = $speaker.imageHeight
    $speakerwidth = $speaker.imageWidth
 
-   write-host "[" $speakerid "]" $twitter " for " $speaker
+   write-host "[" $speakerid "]" $speakertwitter " for " $speakername
    
-        $sqlCommand = new-Object System.Data.SqlClient.SqlCommand("LoadSpeakers", $connection) 
+   $sqlCommand = new-Object System.Data.SqlClient.SqlCommand("LoadSpeakers", $connection) 
    $sqlCommand.CommandType = [System.Data.CommandType]::StoredProcedure
 
    $sqlCommand.Parameters.Add("@Speakerid", $speakerid) | Out-Null
    $sqlCommand.Parameters.Add("@Speakername", $speakername) | Out-Null
-   $sqlCommand.Parameters.Add("@SpeakerBio", $speaker) | Out-Null
+   $sqlCommand.Parameters.Add("@SpeakerBio", $speakerdescription) | Out-Null
    $sqlCommand.Parameters.Add("@SpeakerTwitter",  $speakertwitter) | Out-Null
    $sqlCommand.Parameters.Add("@SpeakerLinkedIn", $speakerlinkedin) | Out-Null
    $sqlCommand.Parameters.Add("@SpeakerContact", $speakercontact) | Out-Null
