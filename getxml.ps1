@@ -1,9 +1,11 @@
 ﻿# get SQL Saturday data from the site
+param($drive="e")
 
 $debug = 1;
 # counter for events
 $i = 1
 $baseURL = "http://www.sqlsaturday.com/eventxml.aspx?sat="
+
 
 
 
@@ -15,7 +17,7 @@ $missedXML = 0
 While ($i -lt 9999) {
 # begin loop
 
-$DestinationFile = "f:\SQLSatData\SQLSat" + $i + ".xml"
+$DestinationFile = $drive + ":\SQLSatData\SQLSat" + $i + ".xml"
 $sourceURL = $baseURL + $i
 
 # debug information
