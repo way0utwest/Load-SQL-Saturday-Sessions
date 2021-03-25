@@ -14,6 +14,8 @@ $encoding  = New-Object System.Text.UTF8Encoding
 
 
 foreach ($XmlFile in Get-ChildItem "$XmlFolder\*.xml") {
+    write-host($XmlFile)
+
     $Xml = [xml](Get-Content $XmlFile -Encoding UTF8)  
     try{
         
@@ -48,51 +50,6 @@ foreach ($XmlFile in Get-ChildItem "$XmlFolder\*.xml") {
 
         #Write File out
         $FileToWrite = [IO.StreamWriter]::New($PostFilePath, $false, $encoding)
-        $FileToWrite.WriteLine("        <!DOCTYPE html>")
-        $FileToWrite.WriteLine("<html lang=""en"">")
-        $FileToWrite.WriteLine("    <head>")
-        $FileToWrite.WriteLine("        <meta charset=""utf-8"" />")
-        $FileToWrite.WriteLine("        <meta name=""viewport"" content=""width=device-width, initial-scale=1, shrink-to-fit=no"" />")
-        $FileToWrite.WriteLine("        <meta name=""description"" content=""Data Saturday 02 - Guatemala"" />")
-        $FileToWrite.WriteLine("        <meta name=""author"" content="" />"")"
-        $FileToWrite.WriteLine("        <title>SQL Saturdays</title>
-                <link rel="icon" type="image/x-icon" href="../assets/img/favicon.ico" />
-                <!-- Font Awesome icons (free version)-->
-                <script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" crossorigin="anonymous"></script>
-                <!-- Google fonts-->
-                <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
-                <link href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
-                <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
-                <link href=https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.1/css/bootstrap.css rel=stylesheet>
-                <!-- Core theme CSS (includes Bootstrap)-->
-                <link href="../css/styles.css" rel="stylesheet" />
-            </head>
-            <body id="page-top">
-                <!-- Navigation-->
-                <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
-                    <div class="container">
-                        <a class="navbar-brand js-scroll-trigger" href="#page-top">
-                            Data Saturday #2 - Guatemala
-                            <!-- <img src="assets/img/navbar-logo.svg" alt="" /> -->
-                        </a>
-                        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                            Menu
-                            <i class="fas fa-bars ml-1"></i>
-                        </button>
-                        <div class="collapse navbar-collapse" id="navbarResponsive">
-                            <ul class="navbar-nav text-uppercase ml-auto">
-                                <li class="nav-item"><a class="nav-link js-scroll-trigger" href="../index.html">DataSaturdays home</a></li> 
-                                <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#schedule">Schedule</a></li>
-                                <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#speakers">Speakers</a></li>
-                                <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#contact">Contact</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </nav>
-                <!-- Masthead-->
-                <header class="masthead">
-                    <div class="container">
-        
         $FileToWrite.WriteLine("---")
         $FileToWrite.WriteLine("layout: ""post"" ")
         $FileToWrite.WriteLine("title: ""$($Eventtitle)"" ")
@@ -109,49 +66,24 @@ foreach ($XmlFile in Get-ChildItem "$XmlFolder\*.xml") {
         $FileToWrite.WriteLine(" ")
         $FileToWrite.WriteLine("<a href=""/PDF/$($EventNumber).pdf"">PDF of Schedule</a>")
         $FileToWrite.WriteLine(" ")
-        $FileToWrite.WriteLine("Speakers, Sessions, and Sponsors are listed below. ")
+        $FileToWrite.WriteLine("This event has completed. All data shown below is from the historical XML public data available.")
+        $FileToWrite.WriteLine("<ul>")
+        $FileToWrite.WriteLine("   <li><a href=""#sessions"">Sessions</a></li>")
+        $FileToWrite.WriteLine("   <li><a href=""#speakers"">Speakers</a></li>")
+        $FileToWrite.WriteLine("   <li><a href=""#sponsors"">Sponsors</a></li>")
         $FileToWrite.WriteLine(" ")
         $FileToWrite.WriteLine(" ")
-        $FileToWrite.WriteLine("## Speakers")
-        $FileToWrite.WriteLine("This is a list of speakers from the XML Guidebook records. The details and URLs were valid at the time of the event.")
         $FileToWrite.WriteLine(" ")
-        $FileToWrite.WriteLine(" ")
-        $SpeakerList = $xml.GuidebookXML.speakers
-        foreach ($Speaker in $SpeakerList.speaker){ 
-            $SpeakerName = $Speaker.name  
-            $SpeakerTwitter = ""
-            if ($Speaker.twitter -ne "") {
-            $SpeakerTwitter = " - [$($Speaker.twitter)](https://www.twitter.com/$($Speaker.twitter))"
-            }
-            $FileToWrite.WriteLine("**$SpeakerName** $SpeakerTwitter")   
-            $FileToWrite.WriteLine(" ")
-            $SpeakerLI = ""
-            if ($Speaker.linkedin -ne "") {
-                $SpeakerLI = "LinkedIn: [$SpeakerName]($($Speaker.linkedin))"
-                $FileToWrite.WriteLine("$SpeakerLI" )
-                $FileToWrite.WriteLine(" ")
-            }
-            $SpeakerContact = ""
-            if ($Speaker.ContactURL -ne "") {
-            $SpeakerContact = "[$($Speaker.ContactURL)]($($Speaker.ContactURL))"
-            $FileToWrite.WriteLine("Contact: $SpeakerContact" )
-            $FileToWrite.WriteLine(" ")
-        }
-            $SpeakerDescription = $Speaker.description
-            $FileToWrite.WriteLine("$SpeakerDescription" )
-            $FileToWrite.WriteLine(" ")
-        }
-        $FileToWrite.WriteLine(" ")
-        $FileToWrite.WriteLine(" ")
-        $FileToWrite.WriteLine("## Sessions")
+        $FileToWrite.WriteLine("# <a name=""sessions""></a>Sessions")
         $FileToWrite.WriteLine("This is a list of sessions from the event, based on the schedule in the XML files.")
         $FileToWrite.WriteLine(" ")
+
         $FileToWrite.WriteLine("----------------------------------------------------------------------------------- ")
         $SessionList = $xml.GuidebookXML.events
         foreach ($Session in $SessionList.event){ 
             $SessionTitle = $Session.title  
             $FileToWrite.WriteLine(" ")
-            $FileToWrite.WriteLine("**Title**: $SessionTitle")   
+            $FileToWrite.WriteLine("##Title: $SessionTitle##")   
             $FileToWrite.WriteLine(" ")
             $SessionAbstract = $Session.description
             $FileToWrite.WriteLine("**Abstract**:")
@@ -166,11 +98,39 @@ foreach ($XmlFile in Get-ChildItem "$XmlFolder\*.xml") {
             $FileToWrite.WriteLine("$SessionRoom")
             $FileToWrite.WriteLine(" ")
             $FileToWrite.WriteLine(" ")
-            $FileToWrite.WriteLine("----------------------------------------------------------------------------------- ")
             $FileToWrite.WriteLine(" ")
+            $FileToWrite.WriteLine(" ")
+        $FileToWrite.WriteLine("## <a name=""#speakers""></a>Speakers")
+        $FileToWrite.WriteLine("This is a list of speakers from the XML Guidebook records. The details and URLs were valid at the time of the event.")
+        $FileToWrite.WriteLine(" ")
+        $FileToWrite.WriteLine(" ")
+        $SpeakerList = $xml.GuidebookXML.speakers
+        foreach ($Speaker in $SpeakerList.speaker){ 
+            $SpeakerName = $Speaker.name  
+            $SpeakerTwitter = ""
+            if ($Speaker.twitter -ne "") {
+            $SpeakerTwitter = " - [$($Speaker.twitter)](https://www.twitter.com/$($Speaker.twitter))"
+            }
+            $FileToWrite.WriteLine("**$SpeakerName** $SpeakerTwitter")   
+            $SpeakerLI = ""
+            if ($Speaker.linkedin -ne "") {
+                $SpeakerLI = "LinkedIn: [$SpeakerName]($($Speaker.linkedin))"
+                $FileToWrite.WriteLine("$SpeakerLI" )
+            }
+            $SpeakerContact = ""
+            if ($Speaker.ContactURL -ne "") {
+            $SpeakerContact = "[$($Speaker.ContactURL)]($($Speaker.ContactURL))"
+            $FileToWrite.WriteLine("Contact: $SpeakerContact" )
+        }
+            $SpeakerDescription = $Speaker.description
+            $FileToWrite.WriteLine("$SpeakerDescription" )
+            $FileToWrite.WriteLine(" ")
+        }
+        $FileToWrite.WriteLine(" ")
+        $FileToWrite.WriteLine(" ")
     
         }
-        $FileToWrite.WriteLine("## Sponsors")
+        $FileToWrite.WriteLine("## <a name=""sponsors""></a>Sponsors")
         $FileToWrite.WriteLine("The following is a list of sponsors that helped fund the event:")
         $FileToWrite.WriteLine(" ")
         $Sponsors = $xml.GuidebookXML.sponsors
@@ -181,7 +141,7 @@ foreach ($XmlFile in Get-ChildItem "$XmlFolder\*.xml") {
             $FileToWrite.WriteLine("![logo]($ImageURL =150x150)" )
             $FileToWrite.WriteLine(" ")
         }
-        $FileToWrite.WriteLine("[Back to the SQL Saturday Event List](/sqlsat.html)")
+        $FileToWrite.WriteLine("[Back to the SQL Saturday Event List](/past.html)")
         $FileToWrite.WriteLine("&nbsp;")
         $FileToWrite.WriteLine("[Back to the home page](/index.html)")
 
