@@ -71,8 +71,10 @@ foreach ($XmlFile in Get-ChildItem "$XmlFolder\*.xml") {
         $FileToWrite.WriteLine("   <li><a href=""#sessions"">Sessions</a></li>")
         $FileToWrite.WriteLine("   <li><a href=""#speakers"">Speakers</a></li>")
         $FileToWrite.WriteLine("   <li><a href=""#sponsors"">Sponsors</a></li>")
+        $FileToWrite.WriteLine("</ul>")
         $FileToWrite.WriteLine(" ")
         $FileToWrite.WriteLine(" ")
+        $FileToWrite.WriteLine("----------------------------------------------------------------------------------- ")
         $FileToWrite.WriteLine(" ")
         $FileToWrite.WriteLine("# <a name=""sessions""></a>Sessions")
         $FileToWrite.WriteLine("This is a list of sessions from the event, based on the schedule in the XML files.")
@@ -83,7 +85,7 @@ foreach ($XmlFile in Get-ChildItem "$XmlFolder\*.xml") {
         foreach ($Session in $SessionList.event){ 
             $SessionTitle = $Session.title  
             $FileToWrite.WriteLine(" ")
-            $FileToWrite.WriteLine("##Title: $SessionTitle##")   
+            $FileToWrite.WriteLine("## Title: $SessionTitle")   
             $FileToWrite.WriteLine(" ")
             $SessionAbstract = $Session.description
             $FileToWrite.WriteLine("**Abstract**:")
@@ -97,9 +99,9 @@ foreach ($XmlFile in Get-ChildItem "$XmlFolder\*.xml") {
             $SessionRoom = "*Track and Room*: $($Session.track) - $($Session.location.name)"
             $FileToWrite.WriteLine("$SessionRoom")
             $FileToWrite.WriteLine(" ")
+            $FileToWrite.WriteLine("----------------------------------------------------------------------------------- ")
             $FileToWrite.WriteLine(" ")
-            $FileToWrite.WriteLine(" ")
-            $FileToWrite.WriteLine(" ")
+        }
         $FileToWrite.WriteLine("## <a name=""#speakers""></a>Speakers")
         $FileToWrite.WriteLine("This is a list of speakers from the XML Guidebook records. The details and URLs were valid at the time of the event.")
         $FileToWrite.WriteLine(" ")
@@ -108,20 +110,25 @@ foreach ($XmlFile in Get-ChildItem "$XmlFolder\*.xml") {
         foreach ($Speaker in $SpeakerList.speaker){ 
             $SpeakerName = $Speaker.name  
             $SpeakerTwitter = ""
+            $FileToWrite.WriteLine("**$SpeakerName**")
+            $FileToWrite.WriteLine(" ")   
             if ($Speaker.twitter -ne "") {
             $SpeakerTwitter = " - [$($Speaker.twitter)](https://www.twitter.com/$($Speaker.twitter))"
+            $FileToWrite.WriteLine("Twitter: $SpeakerTwitter")   
+            $FileToWrite.WriteLine(" ")   
             }
-            $FileToWrite.WriteLine("**$SpeakerName** $SpeakerTwitter")   
             $SpeakerLI = ""
             if ($Speaker.linkedin -ne "") {
                 $SpeakerLI = "LinkedIn: [$SpeakerName]($($Speaker.linkedin))"
                 $FileToWrite.WriteLine("$SpeakerLI" )
+                $FileToWrite.WriteLine(" ")   
             }
             $SpeakerContact = ""
             if ($Speaker.ContactURL -ne "") {
             $SpeakerContact = "[$($Speaker.ContactURL)]($($Speaker.ContactURL))"
             $FileToWrite.WriteLine("Contact: $SpeakerContact" )
-        }
+            $FileToWrite.WriteLine(" ")   
+            }
             $SpeakerDescription = $Speaker.description
             $FileToWrite.WriteLine("$SpeakerDescription" )
             $FileToWrite.WriteLine(" ")
@@ -129,7 +136,6 @@ foreach ($XmlFile in Get-ChildItem "$XmlFolder\*.xml") {
         $FileToWrite.WriteLine(" ")
         $FileToWrite.WriteLine(" ")
     
-        }
         $FileToWrite.WriteLine("## <a name=""sponsors""></a>Sponsors")
         $FileToWrite.WriteLine("The following is a list of sponsors that helped fund the event:")
         $FileToWrite.WriteLine(" ")
@@ -138,7 +144,7 @@ foreach ($XmlFile in Get-ChildItem "$XmlFolder\*.xml") {
             $SponsorUrl = "[$($Sponsor.name)]($($sponsor.url))"
             $ImageUrl = "$($Sponsor.imageURL)"
             $FileToWrite.WriteLine("$SponsorUrl")   
-            $FileToWrite.WriteLine("![logo]($ImageURL =150x150)" )
+            # $FileToWrite.WriteLine("![logo]($ImageURL =150x150)" )
             $FileToWrite.WriteLine(" ")
         }
         $FileToWrite.WriteLine("[Back to the SQL Saturday Event List](/past.html)")
