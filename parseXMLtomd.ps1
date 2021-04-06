@@ -64,7 +64,7 @@ foreach ($XmlFile in Get-ChildItem "$XmlFolder\*.xml") {
         $FileToWrite.WriteLine("- $VenueStreet")
         $FileToWrite.WriteLine("- $VenueCity, $VenueState")
         $FileToWrite.WriteLine(" ")
-        $FileToWrite.WriteLine("<a href=""/PDF/$($EventNumber).pdf"">PDF of Schedule</a>")
+        $FileToWrite.WriteLine("<a href=""/assets/pdf/$($EventNumber).pdf"">PDF of Schedule</a>")
         $FileToWrite.WriteLine(" ")
         $FileToWrite.WriteLine("This event has completed. All data shown below is from the historical XML public data available.")
         $FileToWrite.WriteLine("<ul>")
@@ -73,6 +73,8 @@ foreach ($XmlFile in Get-ChildItem "$XmlFolder\*.xml") {
         $FileToWrite.WriteLine("   <li><a href=""#sponsors"">Sponsors</a></li>")
         $FileToWrite.WriteLine("</ul>")
         $FileToWrite.WriteLine(" ")
+        $FileToWrite.WriteLine(" ")
+        $FileToWrite.WriteLine("If there are any data quality issues or corrections needed, please contact the webmaster for this site or submit a pull request for the appropriate file(s). ")
         $FileToWrite.WriteLine(" ")
         $FileToWrite.WriteLine("----------------------------------------------------------------------------------- ")
         $FileToWrite.WriteLine(" ")
@@ -141,7 +143,7 @@ foreach ($XmlFile in Get-ChildItem "$XmlFolder\*.xml") {
         $FileToWrite.WriteLine(" ")
         $Sponsors = $xml.GuidebookXML.sponsors
         foreach ($Sponsor in $Sponsors.sponsor){               
-            $SponsorUrl = "[$($Sponsor.name)]($($sponsor.url))"
+            $SponsorUrl = "- [$($Sponsor.name)]($($sponsor.url))"
             $ImageUrl = "$($Sponsor.imageURL)"
             $FileToWrite.WriteLine("$SponsorUrl")   
             # $FileToWrite.WriteLine("![logo]($ImageURL =150x150)" )
