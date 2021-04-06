@@ -149,9 +149,10 @@ foreach ($XmlFile in Get-ChildItem "$XmlFolder\*.xml") {
             # $FileToWrite.WriteLine("![logo]($ImageURL =150x150)" )
             $FileToWrite.WriteLine(" ")
         }
-        $FileToWrite.WriteLine("[Back to the SQL Saturday Event List](/past.html)")
-        $FileToWrite.WriteLine("&nbsp;")
-        $FileToWrite.WriteLine("[Back to the home page](/index.html)")
+        $FileToWrite.WriteLine("[Back to the SQL Saturday Event List](/past)")
+        $FileToWrite.WriteLine(" ")
+        $FileToWrite.WriteLine("[Back to the home page](/index)")
+        $FileToWrite.WriteLine(" ")
 
         $FileToWrite.Close()
 
